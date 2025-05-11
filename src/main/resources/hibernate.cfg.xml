@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- Configurações Básicas da Conexão -->
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/bd_biblioteca_psa</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">pvkt2005</property>
+
+        <!-- Outras Configurações -->
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+
+        <!-- Configuração de Criação do Banco de Dados -->
+        <property name="hbm2ddl.auto">update</property>
+
+        <!-- Mapeamento das entidades -->
+
+        <!-- Cliente -->
+        <mapping
+            class="br.edu.ifpr.bsi.bibliotecapsa.model.Cliente"
+            />
+
+        <!-- Bibliotecario -->
+        <mapping
+            class="br.edu.ifpr.bsi.bibliotecapsa.model.Bibliotecario"
+            />
+
+        <!-- Livro -->
+        <mapping
+            class="br.edu.ifpr.bsi.bibliotecapsa.model.Livro"
+            />
+
+        <!-- Reserva -->
+        <mapping
+            class="br.edu.ifpr.bsi.bibliotecapsa.model.Livro"
+            />
+
+    </session-factory>
+</hibernate-configuration>
