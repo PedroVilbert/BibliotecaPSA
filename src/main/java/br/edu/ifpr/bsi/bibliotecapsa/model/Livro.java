@@ -1,12 +1,13 @@
 package br.edu.ifpr.bsi.bibliotecapsa.model;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_livro")
-public class Livro {
+public class Livro extends GenericModel {
 
     @Column(name = "nome_livro", nullable = false)
     private String nome_livro;

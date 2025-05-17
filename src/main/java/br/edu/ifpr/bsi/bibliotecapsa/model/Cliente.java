@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_cliente")
-public class Cliente {
+public class Cliente extends GenericModel{
 
     @Column(name = "nome_cliente",length = 100, nullable = false )
     private String nome_cliente;

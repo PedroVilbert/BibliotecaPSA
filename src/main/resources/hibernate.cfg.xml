@@ -38,7 +38,7 @@
 
         <!-- Reserva -->
         <mapping
-            class="br.edu.ifpr.bsi.bibliotecapsa.model.Livro"
+            class="br.edu.ifpr.bsi.bibliotecapsa.model.Reserva"
             />
 
     </session-factory>

@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_bibliotecario")
-public class Bibliotecario {
+public class Bibliotecario extends GenericModel{
 
     @Column(name = "nome_bibliotecario", length = 100, nullable = false)
     private String nome_bibliotecario;

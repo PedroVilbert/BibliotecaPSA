@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tb_reserva")
-public class Reserva {
+public class Reserva extends GenericModel{
 
     @Column(name = "data_reserva", nullable = false)
     private Date data_reserva;
