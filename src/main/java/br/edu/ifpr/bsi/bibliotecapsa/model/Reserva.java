@@ -14,13 +14,11 @@ public class Reserva extends GenericModel{
     @Column(name = "data_devolucao", nullable = false)
     private Date data_devolucao;
 
-    @JoinColumn
-    @OneToMany
-    private Cliente cliente;
+    @Column(name = "cliente_reserva", nullable = false)
+    private long cliente;
 
-    @JoinColumn
-    @OneToMany
-    private Livro livro;
+    @Column(name = "livro_reserva", nullable = false)
+    private long livro;
 
     @Column(name = "valor_multa", nullable = false)
     private Float valor_multa;
@@ -41,19 +39,19 @@ public class Reserva extends GenericModel{
         this.data_reserva = data_reserva;
     }
 
-    public Cliente getCliente() {
+    public long getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(long cliente) {
         this.cliente = cliente;
     }
 
-    public Livro getLivro() {
+    public long getLivro() {
         return livro;
     }
 
-    public void setLivro(Livro livro) {
+    public void setLivro(long livro) {
         this.livro = livro;
     }
 
