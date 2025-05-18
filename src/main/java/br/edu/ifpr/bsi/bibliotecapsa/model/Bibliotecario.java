@@ -8,10 +8,10 @@ import jakarta.persistence.Table;
 @Table(name = "tb_bibliotecario")
 public class Bibliotecario extends GenericModel{
 
-    @Column(name = "nome_bibliotecario", length = 100, nullable = false)
+    @Column(name = "nome_bibliotecario", length = 100)
     private String nome_bibliotecario;
 
-    @Column(name = "senha_bibliotecario", nullable = false)
+    @Column(name = "senha_bibliotecario")
     private String senha_bibliotecario;
 
     @Column(name = "email_bibliotecario", length = 120)

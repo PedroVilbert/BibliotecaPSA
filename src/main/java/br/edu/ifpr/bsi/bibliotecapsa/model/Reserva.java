@@ -8,58 +8,68 @@ import java.util.Date;
 @Table(name = "tb_reserva")
 public class Reserva extends GenericModel{
 
-    @Column(name = "data_reserva", nullable = false)
+    @Column(name = "data_reserva")
     private Date data_reserva;
 
-    @Column(name = "data_devolucao", nullable = false)
+    @Column(name = "data_devolucao")
     private Date data_devolucao;
 
-    @Column(name = "cliente_reserva", nullable = false)
-    private long cliente;
+    @Column(name = "cliente_reserva")
+    private String cliente;
 
-    @Column(name = "livro_reserva", nullable = false)
-    private long livro;
+    @Column(name = "livro_reserva")
+    private String livro;
 
-    @Column(name = "valor_multa", nullable = false)
+    @Column(name = "valor_multa")
     private Float valor_multa;
 
     public Date getData_devolucao() {
+
         return data_devolucao;
     }
 
     public void setData_devolucao(Date data_devolucao) {
+
         this.data_devolucao = data_devolucao;
     }
 
     public Date getData_reserva() {
+
         return data_reserva;
     }
 
     public void setData_reserva(Date data_reserva) {
+
         this.data_reserva = data_reserva;
     }
 
-    public long getCliente() {
+    public String getCliente() {
+
         return cliente;
     }
 
-    public void setCliente(long cliente) {
+    public void setCliente(String cliente) {
+
         this.cliente = cliente;
     }
 
-    public long getLivro() {
+    public String getLivro() {
+
         return livro;
     }
 
-    public void setLivro(long livro) {
+    public void setLivro(String livro) {
+
         this.livro = livro;
     }
 
     public Float getValor_multa() {
+
         return valor_multa;
     }
 
     public void setValor_multa(Float valor_multa) {
+
         this.valor_multa = valor_multa;
     }
 }
