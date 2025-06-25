@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+</h:head>
+<h:body>
+
+    <p:megaMenu orientation="horizontal">
+        <p:menuitem value="Início" url="#{request.contextPath}/pages/index.xhtml"/>
+        <p:menuitem value="Reservas" url="#{request.contextPath}/pages/reservas.xhtml"/>
+
+        <f:facet name="end">
+            <div class="ui-input-icon-left mr-2">
+                <i class="pi pi-fw pi-search" />
+                <p:inputText placeholder="aqui"/>
+            </div>
+        </f:facet>
+    </p:megaMenu>
+
+    <p:growl />
+</h:body>
+</html>

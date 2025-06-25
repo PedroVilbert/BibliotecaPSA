@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Minhas Reservas</title>
+</h:head>
+<h:body>
+    <p:growl id="mensagens" />
+    <h:form id="formMenu">
+        <p:megaMenu orientation="horizontal">
+            <p:menuitem value="Início" url="#{request.contextPath}/pages/index.xhtml"/>
+            <p:menuitem value="Reservas" url="#{request.contextPath}/pages/reservas.xhtml"/>
+            <f:facet name="end">
+                <div class="ui-input-icon-left mr-2">
+                    <i class="pi pi-fw pi-search" />
+                    <p:inputText placeholder="Pesquisa"/>
+                </div>
+            </f:facet>
+        </p:megaMenu>
+
+    </h:form>
+
+    <h:form id="formListagem">
+        <p:panel header="Reservas">
+            <p:dataTable id="tb_reserva" value="#{reservaBean.reservas}" var="reserva">
+                <p:column headerText="Data Reserva">
+                    <h:outputText value="#{reserva.data_reserva}"/>
+                </p:column>
+                <p:column headerText="Data Devoulução">
+                    <h:outputText value="#{reserva.data_devolucao}"/>
+                </p:column>
+                <p:column headerText="Cliente">
+                    <h:outputText value="#{reserva.cliente_reserva}"/>
+                </p:column>
+                <p:column headerText="Opções">
+
+                    <p:commandButton icon="pi pi-times" title="Apagar"
+                                     actionListener="#{reservaBean.remover}"
+                                     styleClass="rounded-button ui-button-danger ui-button-flat">
+                        <f:attribute name="reservaSelecionado" value="#{alimentadorDaTabela}" />
+                    </p:commandButton>
+
+                    <p:commandButton icon="pi pi-pencil" title="Editar"
+                                     actionListener="#{reservaBean.editar}"
+                                     styleClass="rounded-button ui-button-info ui-button-flat">
+                        <f:attribute name="reservaSelecionado" value="#{alimentadorDaTabela}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+    </h:form>
+
+</h:body>
+</html>

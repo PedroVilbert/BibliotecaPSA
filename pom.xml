@@ -9,21 +9,35 @@
   <url>http://maven.apache.org</url>
 
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/jakarta.platform/jakarta.jakartaee-api -->
     <dependency>
-      <groupId>jakarta.servlet</groupId>
-      <artifactId>jakarta.servlet-api</artifactId>
-      <version>6.1.0</version>
+      <groupId>jakarta.platform</groupId>
+      <artifactId>jakarta.jakartaee-api</artifactId>
+      <version>10.0.0</version>
       <scope>provided</scope>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/org.glassfish/jakarta.faces -->
     <dependency>
-      <groupId>jakarta.faces</groupId>
-      <artifactId>jakarta.faces-api</artifactId>
-      <version>4.1.2</version>
+      <groupId>org.glassfish</groupId>
+      <artifactId>jakarta.faces</artifactId>
+      <version>4.1.3</version>
     </dependency>
-
+    <!-- https://mvnrepository.com/artifact/org.jboss.weld.servlet/weld-servlet-shaded -->
     <dependency>
-      <groupId>org.hibernate.orm</groupId>
+      <groupId>org.jboss.weld.servlet</groupId>
+      <artifactId>weld-servlet-shaded</artifactId>
+      <version>6.0.3.Final</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
+    <dependency>
+      <groupId>org.primefaces</groupId>
+      <artifactId>primefaces</artifactId>
+      <version>15.0.4</version>
+      <classifier>jakarta</classifier> <!-- Ensures Jakarta EE compatibility -->
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+    <dependency>
+      <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
       <version>6.6.11.Final</version>
     </dependency>
@@ -39,7 +53,7 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
-      <version>5.13.0-M1</version>
+      <version>5.12.1</version>
       <scope>test</scope>
     </dependency>
 
@@ -47,12 +61,44 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.13.0-M1</version>
+      <version>5.12.1</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- Implementação JSON-B (necessária para Hibernate lidar com tipos JSON) -->
+    <dependency>
+      <groupId>org.eclipse</groupId>
+      <artifactId>yasson</artifactId>
+      <version>3.0.3</version>
+    </dependency>
+
+    <!-- Implementação JSON-P, necessária pelo Yasson -->
+    <dependency>
+      <groupId>org.glassfish</groupId>
+      <artifactId>jakarta.json</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+
   </dependencies>
 
   <build>
-    <finalName>bibliotecapsa</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+
+      <!-- Maven WAR Plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.4.0</version>
+      </plugin>
+    </plugins>
   </build>
 </project>

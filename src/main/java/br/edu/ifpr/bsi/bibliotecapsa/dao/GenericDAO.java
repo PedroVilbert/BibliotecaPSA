@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Optional;
 
 public class GenericDAO <Entidade>{
     private Class<Entidade> classe;
@@ -121,7 +122,7 @@ public class GenericDAO <Entidade>{
             // Os critérios de busca são definidos aqui
             // o _ID é o nome de atributo que está nos parâmetros deste metodo
             // O where quer dizer que o comando SQL que estamos emulando é a clausula "WHERE"
-            criteria.select(root).where(builder.equal(root.get("id"), _ID));
+            criteria.select(root).where(builder.equal(root.get("id"), Optional.of(_ID)));
             resultado = session.createQuery(criteria).getSingleResult();
 
         }catch(RuntimeException erro){
