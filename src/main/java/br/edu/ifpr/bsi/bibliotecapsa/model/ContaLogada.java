@@ -4,6 +4,7 @@ public class ContaLogada {
 
     private static ContaLogada instance;
     private Cliente cliente; // <- Aqui é onde armazena o usuário logado
+    private Bibliotecario bibliotecario;
 
     private ContaLogada() {
     }
@@ -23,6 +24,14 @@ public class ContaLogada {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Bibliotecario getBibliotecario() {
+        return bibliotecario;
+    }
+
+    public void setBibliotecario(Bibliotecario bibliotecario) {
+        this.bibliotecario = bibliotecario;
     }
 }
 

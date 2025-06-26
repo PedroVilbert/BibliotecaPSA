@@ -10,9 +10,9 @@ public class ClienteDAOTest {
     public void inserir(){
         Cliente cliente = new Cliente();
 
-        cliente.setNome_cliente("William inimigo do inter ");
-        cliente.setEmail_cliente("WillContraOInter@gmail.com");
-        cliente.setSenha_cliente("1903");
+        cliente.setNome_cliente("Pedro Vilbert ");
+        cliente.setEmail_cliente("Pedro@gmail.com");
+        cliente.setSenha_cliente("2005");
 
         ClienteDAO dao = new ClienteDAO();
         dao.inserir(cliente);

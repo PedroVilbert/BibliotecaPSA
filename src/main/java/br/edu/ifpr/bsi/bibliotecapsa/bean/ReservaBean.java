@@ -22,19 +22,19 @@ public class ReservaBean implements Serializable {
     private Reserva reserva;
     private List<Reserva> reservas;
 
-    public Reserva getReservas() {
+    public Reserva getReserva() {
         return reserva;
     }
 
-    public void setReservas(Reserva reservas) {
+    public void setReserva(Reserva reservas) {
         this.reserva = reserva;
     }
 
-    public List<Reserva> getReservass() {
+    public List<Reserva> getReservas() {
         return reservas;
     }
 
-    public void setReservass(List<Reserva> reservas) {
+    public void setReservas(List<Reserva> reservas) {
         this.reservas = reservas;
     }
 
@@ -45,7 +45,7 @@ public class ReservaBean implements Serializable {
             ReservaDAO dao = new ReservaDAO();
             this.reservas = dao.listar();
         } catch (Exception e) {
-            FacesMessage mensagem = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao listar funcionários: " + e.getMessage(), "");
+            FacesMessage mensagem = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao listar reservas: " + e.getMessage(), "");
             FacesContext.getCurrentInstance().addMessage(null, mensagem);
             e.printStackTrace(); // opcional: para log
         }

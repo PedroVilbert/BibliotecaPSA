@@ -10,7 +10,7 @@ public class LivroDAOTest {
         Livro livro = new Livro();
 
         livro.setNome_livro("Inferno de Dante");
-        livro.setCategoria_livro("~Filosofia");
+        livro.setCategoria_livro("Filosofia");
         livro.setAutor_livro("Dante");
         livro.setNum_ex_livro(7);
         livro.setLocal_livro("B2");
@@ -45,7 +45,7 @@ public class LivroDAOTest {
 
         livro.setId(52L);
         livro.setNome_livro("Inferno de Dante");
-        livro.setCategoria_livro("~Filosofia");
+        livro.setCategoria_livro("Filosofia");
         livro.setAutor_livro("Dante");
         livro.setNum_ex_livro(9);
         livro.setLocal_livro("B2");

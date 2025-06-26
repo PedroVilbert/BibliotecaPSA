@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Login</title>
+
+    <style>
+        /* Deixa o container dos rádios em linha com espaçamento */
+        #form\\:perfil {
+          display: flex !important;
+          gap: 40px;
+          justify-content: center;
+          margin-bottom: 1rem;
+        }
+    </style>
+</h:head>
+
+
+<h:body style="background-color: #f4f4f4;">
+    <h:form id="form">
+        <p:panel header="Login" style="width: 90%; max-width: 400px; margin: auto; margin-top: 100px; text-align: center;">
+
+            <p:messages id="msgs" showDetail="true" closable="true" />
+
+            <p:selectOneRadio id="line" value="#{loginBean.opcao}" layout="lineDirection" style="margin-bottom: 1rem">
+                <f:selectItem itemLabel="Cliente" itemValue="cliente"/>
+                <f:selectItem itemLabel="Bibliotecario" itemValue="bibliotecario"/>
+            </p:selectOneRadio>
+
+
+            <p:inputText id="email" value="#{loginBean.email}"
+                         placeholder="E-mail"
+                         style="width: 80%; margin-bottom: 1rem;" />
+
+            <p:password id="senha" value="#{loginBean.senha}"
+                        placeholder="Senha"
+                        style="width: 80%; margin-bottom: 1rem;" />
+
+            <p:commandButton value="Entrar"
+                             action="#{loginBean.login()}"
+                             update="msgs"
+                             icon="pi pi-sign-in"
+                             style="width: 80%; margin-top: 1rem;" />
+        </p:panel>
+    </h:form>
+</h:body>
+</html>

@@ -16,7 +16,10 @@
     <p:growl />
 
     <h:form id="formListagem">
-        <p:panel header="Livrod">
+        <p:panel>
+            <f:facet name="header">
+                Bem-vindo, #{sessaoBean.clienteLogado.nome_cliente}!
+            </f:facet>
             <p:dataTable id="tb_livro" value="#{LivroBean.livros}" var="livro">
                 <p:column headerText="Nome Livro">
                     <h:outputText value="#{livro.nome_livro}"/>

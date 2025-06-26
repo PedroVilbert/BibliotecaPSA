@@ -1,8 +1,11 @@
 package br.edu.ifpr.bsi.bibliotecapsa.dao;
 
 import br.edu.ifpr.bsi.bibliotecapsa.helpers.HibernateHelper;
+import br.edu.ifpr.bsi.bibliotecapsa.model.Cliente;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -135,5 +138,59 @@ public class GenericDAO <Entidade>{
 
         return resultado;
 
+    }
+
+    public Cliente buscarCliente(String email, String senha) {
+        Cliente resultado = null;
+        Session session = HibernateHelper.getFabricaDeSessoes().openSession();
+
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Cliente> criteria = builder.createQuery(Cliente.class); // tipo correto aqui
+            Root<Cliente> root = criteria.from(Cliente.class);
+
+            Predicate condEmail = builder.equal(root.get("email_cliente"), email);
+            Predicate condSenha = builder.equal(root.get("senha_cliente"), senha);
+            criteria.select(root).where(builder.and(condEmail, condSenha));
+
+            resultado = session.createQuery(criteria).uniqueResult();
+
+        } catch (NoResultException e) {
+            System.out.println("Nenhum cliente encontrado.");
+        } catch (RuntimeException erro) {
+            System.out.println("Erro ao buscar cliente: " + erro.getMessage());
+        } finally {
+            session.close();
+        }
+
+        return resultado;
+    }
+
+
+    public Entidade buscarBibliotecario(String email, String senha) {
+
+        Entidade resultado = null;
+        Session session = HibernateHelper.getFabricaDeSessoes().openSession();
+
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Entidade> criteria = builder.createQuery(classe);
+            Root<Entidade> root = criteria.from(classe);
+
+            Predicate condEmail = builder.equal(root.get("email_bibliotecario"), email);
+            Predicate condSenha = builder.equal(root.get("senha_bibliotecario"), senha);
+            criteria.select(root).where(builder.and(condEmail, condSenha));
+
+            resultado = session.createQuery(criteria).uniqueResult();
+
+        } catch (NoResultException e) {
+            System.out.println("Nenhum usuário encontrado.");
+        } catch (RuntimeException erro) {
+            System.out.println("Erro ao buscar entidade: " + erro.getMessage());
+        } finally {
+            session.close();
+        }
+
+        return resultado;
     }
 }

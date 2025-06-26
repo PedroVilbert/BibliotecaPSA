@@ -12,19 +12,13 @@
         <p:megaMenu orientation="horizontal">
             <p:menuitem value="Início" url="#{request.contextPath}/pages/index.xhtml"/>
             <p:menuitem value="Reservas" url="#{request.contextPath}/pages/reservas.xhtml"/>
-            <f:facet name="end">
-                <div class="ui-input-icon-left mr-2">
-                    <i class="pi pi-fw pi-search" />
-                    <p:inputText placeholder="Pesquisa"/>
-                </div>
-            </f:facet>
         </p:megaMenu>
 
     </h:form>
 
     <h:form id="formListagem">
         <p:panel header="Reservas">
-            <p:dataTable id="tb_reserva" value="#{reservaBean.reservas}" var="reserva">
+            <p:dataTable id="tb_reserva" value="#{ReservaBean.reservas}" var="reserva">
                 <p:column headerText="Data Reserva">
                     <h:outputText value="#{reserva.data_reserva}"/>
                 </p:column>
@@ -32,20 +26,23 @@
                     <h:outputText value="#{reserva.data_devolucao}"/>
                 </p:column>
                 <p:column headerText="Cliente">
-                    <h:outputText value="#{reserva.cliente_reserva}"/>
+                    <h:outputText value="#{reserva.cliente}"/>
+                </p:column>
+                <p:column headerText="Livro">
+                    <h:outputText value="#{reserva.livro}"/>
                 </p:column>
                 <p:column headerText="Opções">
 
                     <p:commandButton icon="pi pi-times" title="Apagar"
                                      actionListener="#{reservaBean.remover}"
                                      styleClass="rounded-button ui-button-danger ui-button-flat">
-                        <f:attribute name="reservaSelecionado" value="#{alimentadorDaTabela}" />
+                        <f:attribute name="reservaSelecionado" value="#{reserva}" />
                     </p:commandButton>
 
                     <p:commandButton icon="pi pi-pencil" title="Editar"
                                      actionListener="#{reservaBean.editar}"
                                      styleClass="rounded-button ui-button-info ui-button-flat">
-                        <f:attribute name="reservaSelecionado" value="#{alimentadorDaTabela}" />
+                        <f:attribute name="reservaSelecionado" value="#{reserva}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
