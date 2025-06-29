@@ -4,16 +4,16 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+
 </h:head>
 <h:body>
 
     <p:megaMenu orientation="horizontal">
-        <p:menuitem value="Início" url="#{request.contextPath}/pages/index.xhtml"/>
+        <p:menuitem value="Início" url="#{request.contextPath}/pages/clienteHome.xhtml"/>
         <p:menuitem value="Reservas" url="#{request.contextPath}/pages/reservas.xhtml"/>
     </p:megaMenu>
 
 
-    <p:growl />
 
     <h:form id="formListagem">
         <p:panel>
@@ -36,18 +36,14 @@
                 <p:column headerText="Localização">
                     <h:outputText value="#{livro.local_livro}"/>
                 </p:column>
+
                 <p:column headerText="Opções">
-
-                    <p:commandButton icon="pi pi-times" title="Apagar"
-                                     actionListener="#{LivroBean.remover}"
-                                     styleClass="rounded-button ui-button-danger ui-button-flat">
-                        <f:attribute name="LivroSelecionado" value="#{livro}" />
-                    </p:commandButton>
-
-                    <p:commandButton icon="pi pi-pencil" title="Editar"
-                                     actionListener="#{LivroBean.editar}"
-                                     styleClass="rounded-button ui-button-info ui-button-flat">
-                        <f:attribute name="LivroSelecionado" value="#{livro}" />
+                    <p:commandButton value="Reservar"
+                                     actionListener="#{ReservaBean.reservar}"
+                                     update="formListagem"
+                                     icon="pi pi-plus"
+                                     styleClass="ui-button-success">
+                        <f:attribute name="livroSelecionado" value="#{livro}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>

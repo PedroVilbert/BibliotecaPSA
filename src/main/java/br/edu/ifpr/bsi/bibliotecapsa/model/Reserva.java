@@ -23,6 +23,17 @@ public class Reserva extends GenericModel{
     @Column(name = "valor_multa")
     private Float valor_multa;
 
+    @Column(name = "id_cliente")
+    private Long id_cliente;
+
+    public Long getId_cliente() {
+        return id_cliente;
+    }
+
+    public void setId_cliente(Long id_cliente) {
+        this.id_cliente = id_cliente;
+    }
+
     public Date getData_devolucao() {
 
         return data_devolucao;

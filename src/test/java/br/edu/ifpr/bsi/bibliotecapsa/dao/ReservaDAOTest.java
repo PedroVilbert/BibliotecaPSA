@@ -24,9 +24,10 @@ public class ReservaDAOTest {
             // Preenchendo os campos
             reserva.setData_reserva(sdf.parse("23/06/2025"));
             reserva.setData_devolucao(sdf.parse("30/06/2025"));
-            reserva.setCliente("Pedro Vilbert");
+            reserva.setCliente("Vini");
             reserva.setLivro("Introdução à Ciência da Computação");
             reserva.setValor_multa(10.50f);
+            reserva.setId_cliente(7L);
 
             dao.inserir(reserva);
 

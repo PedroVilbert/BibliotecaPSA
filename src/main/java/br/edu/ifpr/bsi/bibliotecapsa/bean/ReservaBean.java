@@ -1,7 +1,10 @@
 package br.edu.ifpr.bsi.bibliotecapsa.bean;
 
 
+import br.edu.ifpr.bsi.bibliotecapsa.dao.LivroDAO;
 import br.edu.ifpr.bsi.bibliotecapsa.dao.ReservaDAO;
+import br.edu.ifpr.bsi.bibliotecapsa.model.ContaLogada;
+import br.edu.ifpr.bsi.bibliotecapsa.model.Livro;
 import br.edu.ifpr.bsi.bibliotecapsa.model.Reserva;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
@@ -11,6 +14,8 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 // O Namede serve para identificar este Bean através da página web criada
@@ -38,17 +43,56 @@ public class ReservaBean implements Serializable {
         this.reservas = reservas;
     }
 
-    @PostConstruct // Executa o método logo após a construção da pagina
+    @PostConstruct
     public void listar() {
-
         try {
+            Long idCliente = ContaLogada.getInstance().getCliente().getId();
             ReservaDAO dao = new ReservaDAO();
-            this.reservas = dao.listar();
+            this.reservas = dao.listarPorCliente(idCliente);
         } catch (Exception e) {
             FacesMessage mensagem = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao listar reservas: " + e.getMessage(), "");
             FacesContext.getCurrentInstance().addMessage(null, mensagem);
-            e.printStackTrace(); // opcional: para log
+            e.printStackTrace();
         }
+    }
+
+
+    public void reservar(ActionEvent event) {
+        Livro livroSelecionado = (Livro) event.getComponent().getAttributes().get("livroSelecionado");
+        livroSelecionado.setNum_ex_livro(livroSelecionado.getNum_ex_livro()-1);
+
+        LivroDAO ldao = new LivroDAO();
+        ldao.salvarAlterar(livroSelecionado);
+
+        // Cria uma instância de Date com a data atual
+        Date dataAtual = new Date();
+        System.out.println("Data original: " + dataAtual);
+
+        // Cria um objeto Calendar e define a data
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dataAtual);
+
+        // Adiciona 7 dias
+        calendar.add(Calendar.DAY_OF_MONTH, 7);
+
+        // Obtém a nova data
+        Date novaData = calendar.getTime();
+
+        Reserva nova = new Reserva();
+        nova.setLivro(livroSelecionado.getNome_livro());
+        nova.setCliente(ContaLogada.getInstance().getCliente().getNome_cliente());
+        nova.setId_cliente(ContaLogada.getInstance().getCliente().getId());
+        nova.setData_reserva(new Date());
+        nova.setData_devolucao(novaData);
+
+        ReservaDAO dao = new ReservaDAO();
+        dao.inserir(nova);
+
+        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Livro reservado com sucesso!", "");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        // Atualizar lista depois de inserir
+        listar();
     }
 
     public void remover(ActionEvent evento){
