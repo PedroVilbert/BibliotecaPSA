@@ -45,12 +45,37 @@ public class ReservaBean implements Serializable {
 
     @PostConstruct
     public void listar() {
+        ReservaDAO dao = new ReservaDAO();
         try {
             Long idCliente = ContaLogada.getInstance().getCliente().getId();
-            ReservaDAO dao = new ReservaDAO();
             this.reservas = dao.listarPorCliente(idCliente);
+
+            for (Reserva reserva : this.reservas) {
+                Date dataDevolucao = reserva.getData_devolucao();
+
+                if (dataDevolucao != null) {
+                    Date hoje = new Date();
+
+                    if (hoje.after(dataDevolucao)) {
+                        long diffEmMs = hoje.getTime() - dataDevolucao.getTime();
+                        long diasAtraso = diffEmMs / (1000 * 60 * 60 * 24);
+
+                        float multa = ((float) diasAtraso * 1.0f) - reserva.getValor_multa(); // R$1,00 por dia
+                        reserva.setValor_multa(multa);
+                    } else {
+                        reserva.setValor_multa(0f);
+                    }
+                } else {
+                    reserva.setValor_multa(0f);
+                }
+            }
+
         } catch (Exception e) {
-            FacesMessage mensagem = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao listar reservas: " + e.getMessage(), "");
+            FacesMessage mensagem = new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR,
+                    "Erro ao listar reservas: " + e.getMessage(),
+                    ""
+            );
             FacesContext.getCurrentInstance().addMessage(null, mensagem);
             e.printStackTrace();
         }
@@ -95,14 +120,47 @@ public class ReservaBean implements Serializable {
         listar();
     }
 
-    public void remover(ActionEvent evento){
-        reserva = (Reserva)  evento.getComponent().getAttributes().get("reservaSelecionado");
-        System.out.println(reserva.getId());
+    public void remover(ActionEvent evento) {
+        reserva = (Reserva) evento.getComponent().getAttributes().get("reservaSelecionada");
+
+        try {
+            // Verifica se há multa
+            if (reserva.getValor_multa() > 0f) {
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "Devolução não autorizada.",
+                        "A multa de R$" + reserva.getValor_multa() + " deve ser quitada com um bibliotecário.");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                return; // Interrompe a devolução
+            }
+
+            // Recupera o livro correspondente
+            LivroDAO livroDAO = new LivroDAO();
+            Livro livro = livroDAO.buscarPorNome(reserva.getLivro());
+
+            if (livro != null) {
+                livro.setNum_ex_livro(livro.getNum_ex_livro() + 1);
+                livroDAO.salvarAlterar(livro);
+            }
+
+            // Remove a reserva
+            ReservaDAO dao = new ReservaDAO();
+            dao.remover(reserva);
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage("Reserva devolvida com sucesso. Exemplar atualizado."));
+
+            listar();
+
+        } catch (Exception e) {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Erro ao processar devolução.", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            e.printStackTrace();
+        }
     }
 
     public void editar(ActionEvent evento){
 
     }
-
 
 }

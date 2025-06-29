@@ -10,7 +10,7 @@
     <p:growl id="mensagens" />
     <h:form id="formMenu">
         <p:megaMenu orientation="horizontal">
-            <p:menuitem value="Início" url="#{request.contextPath}/pages/index.xhtml"/>
+            <p:menuitem value="Início" url="#{request.contextPath}/pages/clienteHome.xhtml"/>
             <p:menuitem value="Reservas" url="#{request.contextPath}/pages/reservas.xhtml"/>
         </p:megaMenu>
 
@@ -31,18 +31,15 @@
                 <p:column headerText="Livro">
                     <h:outputText value="#{reserva.livro}"/>
                 </p:column>
+                <p:column headerText="Multa">
+                    <h:outputText value="#{reserva.valor_multa}"/>
+                </p:column>
                 <p:column headerText="Opções">
-
-                    <p:commandButton icon="pi pi-times" title="Apagar"
-                                     actionListener="#{reservaBean.remover}"
-                                     styleClass="rounded-button ui-button-danger ui-button-flat">
-                        <f:attribute name="reservaSelecionado" value="#{reserva}" />
-                    </p:commandButton>
-
-                    <p:commandButton icon="pi pi-pencil" title="Editar"
-                                     actionListener="#{reservaBean.editar}"
-                                     styleClass="rounded-button ui-button-info ui-button-flat">
-                        <f:attribute name="reservaSelecionado" value="#{reserva}" />
+                    <p:commandButton value="Devolver"
+                                     actionListener="#{ReservaBean.remover}"
+                                     update="formListagem"
+                                     styleClass="ui-button-raised ui-button-secondary">
+                        <f:attribute name="reservaSelecionada" value="#{reserva}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
