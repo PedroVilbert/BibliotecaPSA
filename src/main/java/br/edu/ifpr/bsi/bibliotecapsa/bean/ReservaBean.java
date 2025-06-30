@@ -50,17 +50,18 @@ public class ReservaBean implements Serializable {
             Long idCliente = ContaLogada.getInstance().getCliente().getId();
             this.reservas = dao.listarPorCliente(idCliente);
 
+            Date hoje = new Date();
+
             for (Reserva reserva : this.reservas) {
                 Date dataDevolucao = reserva.getData_devolucao();
 
                 if (dataDevolucao != null) {
-                    Date hoje = new Date();
-
                     if (hoje.after(dataDevolucao)) {
                         long diffEmMs = hoje.getTime() - dataDevolucao.getTime();
                         long diasAtraso = diffEmMs / (1000 * 60 * 60 * 24);
 
-                        float multa = ((float) diasAtraso * 1.0f) - reserva.getValor_multa(); // R$1,00 por dia
+                        // Valor da multa R$ 1,00 por dia de atraso
+                        float multa = diasAtraso * 1.0f;
                         reserva.setValor_multa(multa);
                     } else {
                         reserva.setValor_multa(0f);
@@ -125,10 +126,10 @@ public class ReservaBean implements Serializable {
 
         try {
             // Verifica se há multa
-            if (reserva.getValor_multa() > 0f) {
+            if (reserva.getValor_multa() > 0) {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
                         "Devolução não autorizada.",
-                        "A multa de R$" + reserva.getValor_multa() + " deve ser quitada com um bibliotecário.");
+                        String.format("A multa de R$ %.2f deve ser quitada com um bibliotecário.", reserva.getValor_multa()));
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 return; // Interrompe a devolução
             }

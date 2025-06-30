@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Cadastro de Cliente</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form id="form">
+        <p:panel header="Cadastro de Cliente"
+                 style="width: 90%; max-width: 400px; margin: auto; margin-top: 100px; text-align: center;">
+
+            <!-- Mensagens -->
+            <p:messages id="msgs" showDetail="true" closable="true" />
+
+            <!-- Nome -->
+            <p:inputText id="nome" value="#{clienteBean.nome}"
+                         placeholder="Nome"
+                         style="width: 80%; margin-bottom: 1rem;" />
+
+            <!-- Email -->
+            <p:inputText id="email" value="#{clienteBean.email}"
+                         placeholder="E-mail"
+                         style="width: 80%; margin-bottom: 1rem;" />
+
+            <!-- Senha -->
+            <p:password id="senha" value="#{clienteBean.senha}"
+                        placeholder="Senha"
+                        style="width: 80%; margin-bottom: 1rem;" />
+
+            <!-- Confirmar Senha -->
+            <p:password id="confirmarSenha" value="#{clienteBean.confirmarSenha}"
+                        placeholder="Confirmar senha"
+                        style="width: 80%; margin-bottom: 1rem;" />
+
+            <!-- Botão de cadastrar -->
+            <p:commandButton value="Cadastrar"
+                             action="#{clienteBean.inserir}"
+                             update="msgs"
+                             icon="pi pi-user-plus"
+                             style="width: 80%; margin-top: 1rem;" />
+        </p:panel>
+    </h:form>
+</h:body>
+</html>

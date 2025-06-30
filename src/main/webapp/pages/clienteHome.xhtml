@@ -6,12 +6,19 @@
 <h:head>
 
 </h:head>
+
+<h:form id="formMensagens">
+    <p:growl id="mensagens" showDetail="true" autoUpdate="true" life="3000" immediate="true" />
+</h:form>
+
 <h:body>
 
+    <h:form id="formMenu">
     <p:megaMenu orientation="horizontal">
         <p:menuitem value="Início" url="#{request.contextPath}/pages/clienteHome.xhtml"/>
         <p:menuitem value="Reservas" url="#{request.contextPath}/pages/reservas.xhtml"/>
     </p:megaMenu>
+    </h:form>
 
 
 
@@ -40,7 +47,7 @@
                 <p:column headerText="Opções">
                     <p:commandButton value="Reservar"
                                      actionListener="#{ReservaBean.reservar}"
-                                     update="formListagem"
+                                     update="formListagem formMensagens:mensagens"
                                      icon="pi pi-plus"
                                      styleClass="ui-button-success">
                         <f:attribute name="livroSelecionado" value="#{livro}" />

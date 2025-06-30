@@ -6,8 +6,15 @@
 <h:head>
     <title>Minhas Reservas</title>
 </h:head>
+
+
+<!-- growl fora do form da tabela -->
+<h:form id="formMensagens">
+    <p:growl id="mensagens" showDetail="true" life="3000" />
+</h:form>
+
 <h:body>
-    <p:growl id="mensagens" />
+
     <h:form id="formMenu">
         <p:megaMenu orientation="horizontal">
             <p:menuitem value="Início" url="#{request.contextPath}/pages/clienteHome.xhtml"/>
@@ -37,7 +44,7 @@
                 <p:column headerText="Opções">
                     <p:commandButton value="Devolver"
                                      actionListener="#{ReservaBean.remover}"
-                                     update="formListagem"
+                                     update="formListagem:tb_reserva formMensagens:mensagens"
                                      styleClass="ui-button-raised ui-button-secondary">
                         <f:attribute name="reservaSelecionada" value="#{reserva}" />
                     </p:commandButton>
