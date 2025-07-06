@@ -4,51 +4,94 @@
       xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+    <title>Livros - Biblioteca</title>
 </h:head>
+
 <h:body>
 
-    <p:megaMenu orientation="horizontal">
-        <p:menuitem value="Início" url="#{request.contextPath}/pages/index.xhtml"/>
-        <p:menuitem value="Reservas" url="#{request.contextPath}/pages/reservas.xhtml"/>
-    </p:megaMenu>
+    <!-- Menu -->
+    <h:form id="formMenu">
+        <p:megaMenu orientation="horizontal">
+            <p:menuitem value="Início" url="#{request.contextPath}/pages/bibliotecarioHome.xhtml"/>
+            <p:menuitem value="Reservas" url="#{request.contextPath}/pages/bibliotecarioReservas.xhtml"/>
+            <p:menuitem value="Novo Bibliotecario" url="#{request.contextPath}/pages/bibliotecarioCadastro.xhtml"/>
+        </p:megaMenu>
+    </h:form>
 
+    <!-- Growl para mensagens -->
+    <h:form id="formMensagens">
+        <p:growl id="mensagens" showDetail="true" autoUpdate="true" life="3000" />
+    </h:form>
 
-    <p:growl />
+    <h:form id="formCadastro">
+    <!-- Toggleble indica que queremos u, Fueldset que pode ser aberto e fechado -->
+    <p:fieldset legend="Cadastro de Livros" toggleable="true">
 
+        <p:panel>
+            <p:panelGrid>
+                <h:outputLabel for="nome_livro" value="Nome Livro:" />
+                <p:inputText id="nome_livro" value="#{LivroBean.livroCadastro.nome_livro}" />
+            </p:panelGrid>
+
+            <p:panelGrid>
+                <h:outputLabel for="autor_livro" value="Autor:" />
+                <p:inputText id="autor_livro" value="#{LivroBean.livroCadastro.autor_livro}" />
+            </p:panelGrid>
+
+            <p:panelGrid>
+                <h:outputLabel for="categoria_livro" value="Categoria:" />
+                <p:inputText id="categoria_livro" value="#{LivroBean.livroCadastro.categoria_livro}" />
+            </p:panelGrid>
+
+            <p:panelGrid>
+                <h:outputLabel for="num_ex_livro" value="Número Exemplares:" />
+                <p:inputText id="num_ex_livro" value="#{LivroBean.livroCadastro.num_ex_livro}" />
+            </p:panelGrid>
+
+            <p:panelGrid>
+                <h:outputLabel for="local_livro" value="Localização:" />
+                <p:inputText id="local_livro" value="#{LivroBean.livroCadastro.local_livro}" />
+            </p:panelGrid>
+
+            <p:commandButton icon="pi pi-plus" value="Cadastrar"
+                             title="Cadastrar"
+                             actionListener="#{LivroBean.inserir}"
+                             update="formListagem formMensagens:mensagens">
+                <f:attribute name="LivroSelecionado" value="#{livro}" />
+            </p:commandButton>
+        </p:panel>
+    </p:fieldset>
+    </h:form>
+
+    <!-- Listagem de livros -->
     <h:form id="formListagem">
-        <p:panel header="Livrod">
+        <p:panel header="Bem-vindo, #{sessaoBean.bibliotecarioLogado.nome_bibliotecario}!">
             <p:dataTable id="tb_livro" value="#{LivroBean.livros}" var="livro">
                 <p:column headerText="Nome Livro">
-                    <h:outputText value="#{livro.nome_livro}"/>
+                    <h:outputText value="#{livro.nome_livro}" />
                 </p:column>
                 <p:column headerText="Autor">
-                    <h:outputText value="#{livro.autor_livro}"/>
+                    <h:outputText value="#{livro.autor_livro}" />
                 </p:column>
                 <p:column headerText="Categoria">
-                    <h:outputText value="#{livro.categoria_livro}"/>
+                    <h:outputText value="#{livro.categoria_livro}" />
                 </p:column>
-                <p:column headerText="Numero Exemplares">
-                    <h:outputText value="#{livro.num_ex_livro}"/>
+                <p:column headerText="Número Exemplares">
+                    <h:outputText value="#{livro.num_ex_livro}" />
                 </p:column>
                 <p:column headerText="Localização">
-                    <h:outputText value="#{livro.local_livro}"/>
+                    <h:outputText value="#{livro.local_livro}" />
                 </p:column>
                 <p:column headerText="Opções">
-
-                    <p:commandButton icon="pi pi-times" title="Apagar"
-                                     actionListener="#{LivroBean.remover}"
-                                     styleClass="rounded-button ui-button-danger ui-button-flat">
-                        <f:attribute name="LivroSelecionado" value="#{livro}" />
-                    </p:commandButton>
-
-                    <p:commandButton icon="pi pi-pencil" title="Editar"
-                                     actionListener="#{LivroBean.editar}"
-                                     styleClass="rounded-button ui-button-info ui-button-flat">
-                        <f:attribute name="LivroSelecionado" value="#{livro}" />
-                    </p:commandButton>
+                    <p:commandButton value="Atualizar"
+                                     icon="pi pi-pencil"
+                                     action="#{LivroBean.selecionarLivro(livro)}"
+                                     styleClass="ui-button-info"
+                                     ajax="false" />
                 </p:column>
             </p:dataTable>
         </p:panel>
     </h:form>
+
 </h:body>
 </html>

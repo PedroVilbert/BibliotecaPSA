@@ -1,6 +1,5 @@
 package br.edu.ifpr.bsi.bibliotecapsa.bean;
 
-
 import br.edu.ifpr.bsi.bibliotecapsa.dao.LivroDAO;
 import br.edu.ifpr.bsi.bibliotecapsa.dao.ReservaDAO;
 import br.edu.ifpr.bsi.bibliotecapsa.model.ContaLogada;
@@ -43,7 +42,17 @@ public class ReservaBean implements Serializable {
         this.reservas = reservas;
     }
 
+
     @PostConstruct
+    public void init() {
+        if (ContaLogada.getInstance().getCliente() != null) {
+            listar();
+        } else {
+            listarTodas();
+        }
+    }
+
+
     public void listar() {
         ReservaDAO dao = new ReservaDAO();
         try {
@@ -82,6 +91,35 @@ public class ReservaBean implements Serializable {
         }
     }
 
+    public void listarTodas() {
+        ReservaDAO dao = new ReservaDAO();
+        try {
+            this.reservas = dao.listar(); // método genérico que retorna todas as reservas
+
+            Date hoje = new Date();
+            for (Reserva reserva : this.reservas) {
+                Date dataDevolucao = reserva.getData_devolucao();
+
+                if (dataDevolucao != null && hoje.after(dataDevolucao)) {
+                    long diffEmMs = hoje.getTime() - dataDevolucao.getTime();
+                    long diasAtraso = diffEmMs / (1000 * 60 * 60 * 24);
+                    float multa = diasAtraso * 1.0f;
+                    reserva.setValor_multa(multa);
+                } else {
+                    reserva.setValor_multa(0f);
+                }
+            }
+
+        } catch (Exception e) {
+            FacesMessage mensagem = new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR,
+                    "Erro ao listar todas as reservas: " + e.getMessage(),
+                    ""
+            );
+            FacesContext.getCurrentInstance().addMessage(null, mensagem);
+            e.printStackTrace();
+        }
+    }
 
     public void reservar(ActionEvent event) {
         Livro livroSelecionado = (Livro) event.getComponent().getAttributes().get("livroSelecionado");
@@ -150,7 +188,7 @@ public class ReservaBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("Reserva devolvida com sucesso. Exemplar atualizado."));
 
-            listar();
+            init();
 
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -162,6 +200,13 @@ public class ReservaBean implements Serializable {
 
     public void editar(ActionEvent evento){
 
+    }
+
+    public void quitarMulta(ActionEvent evento){
+        reserva = (Reserva) evento.getComponent().getAttributes().get("reservaSelecionada");
+        reserva.setValor_multa(0F);
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage("Multa Quitada."));
     }
 
 }
