@@ -3,7 +3,7 @@ package br.edu.ifpr.bsi.bibliotecapsa.model;
 public class ContaLogada {
 
     private static ContaLogada instance;
-    private Cliente cliente; // <- Aqui é onde armazena o usuário logado
+    private Cliente cliente;
     private Bibliotecario bibliotecario;
 
     private ContaLogada() {

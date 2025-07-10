@@ -163,32 +163,33 @@ public class ReservaBean implements Serializable {
         reserva = (Reserva) evento.getComponent().getAttributes().get("reservaSelecionada");
 
         try {
-            // Verifica se há multa
             if (reserva.getValor_multa() > 0) {
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_WARN,
                         "Devolução não autorizada.",
                         String.format("A multa de R$ %.2f deve ser quitada com um bibliotecário.", reserva.getValor_multa()));
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                return; // Interrompe a devolução
+                return;
             }
 
-            // Recupera o livro correspondente
             LivroDAO livroDAO = new LivroDAO();
             Livro livro = livroDAO.buscarPorNome(reserva.getLivro());
 
-            if (livro != null) {
-                livro.setNum_ex_livro(livro.getNum_ex_livro() + 1);
-                livroDAO.salvarAlterar(livro);
-            }
+            livro.setNum_ex_livro(livro.getNum_ex_livro() + 1);
+            livroDAO.salvarAlterar(livro);
 
-            // Remove a reserva
             ReservaDAO dao = new ReservaDAO();
             dao.remover(reserva);
+
+            // Atualiza a lista de livros no LivroBean após devolução
+            LivroBean livroBean = FacesContext.getCurrentInstance()
+                    .getApplication()
+                    .evaluateExpressionGet(FacesContext.getCurrentInstance(), "#{LivroBean}", LivroBean.class);
+            livroBean.listar();
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("Reserva devolvida com sucesso. Exemplar atualizado."));
 
-            init();
+            init(); // Recarrega as reservas
 
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -198,8 +199,8 @@ public class ReservaBean implements Serializable {
         }
     }
 
-    public void editar(ActionEvent evento){
 
+    public void editar(ActionEvent evento){
     }
 
     public void quitarMulta(ActionEvent evento){

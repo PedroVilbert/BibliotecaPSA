@@ -27,10 +27,14 @@
         <p:panel header="Reservas">
             <p:dataTable id="tb_reserva" value="#{ReservaBean.reservas}" var="reserva">
                 <p:column headerText="Data Reserva">
-                    <h:outputText value="#{reserva.data_reserva}"/>
+                    <h:outputText value="#{reserva.data_reserva}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="Data Devoulução">
-                    <h:outputText value="#{reserva.data_devolucao}"/>
+                    <h:outputText value="#{reserva.data_devolucao}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+                    </h:outputText>
                 </p:column>
                 <p:column headerText="Cliente">
                     <h:outputText value="#{reserva.cliente}"/>
@@ -44,7 +48,7 @@
                 <p:column headerText="Opções">
                     <p:commandButton value="Devolver"
                                      actionListener="#{ReservaBean.remover}"
-                                     update="formListagem:tb_reserva formMensagens:mensagens"
+                                     update="formListagem:tb_reserva formMensagens:mensagens formLivros:tb_livros"
                                      styleClass="ui-button-raised ui-button-secondary">
                         <f:attribute name="reservaSelecionada" value="#{reserva}" />
                     </p:commandButton>

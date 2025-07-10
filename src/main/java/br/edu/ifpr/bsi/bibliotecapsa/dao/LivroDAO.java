@@ -7,14 +7,14 @@ import org.hibernate.query.Query;
 
 public class LivroDAO extends GenericDAO<Livro> {
 
-    public Livro buscarPorNome(String nomeLivro) {
+    public Livro buscarPorNome(String nome_livro) {
         Session session = HibernateHelper.getFabricaDeSessoes().openSession();
         Livro livro = null;
 
         try {
             Query<Livro> query = session.createQuery(
-                    "FROM Livro WHERE nome_livro = :nome", Livro.class);
-            query.setParameter("nome", nomeLivro);
+                    "FROM Livro WHERE lower(nome_livro) = :nome", Livro.class);
+            query.setParameter("nome", nome_livro.toLowerCase());
             livro = query.uniqueResult();
         } finally {
             session.close();
